@@ -9,9 +9,11 @@ Minimal REST API using Node.js, Express, and MySQL.
 - Event registrations table CRUD
 - JOIN-based event and registration responses
 - Aggregation endpoint: `GET /api/events/stats`
+- JWT authentication (`register`, `login`)
+- Password hashing using bcrypt
+- Role-based authorization (Admin-only event creation)
 - Async/await across DB/model/controller layers
 - Clean modular folder structure
-- No authentication (as requested)
 
 ## Project Structure
 
@@ -24,6 +26,9 @@ smart-campus-management-system/
 │   │   ├── eventController.js
 │   │   ├── registrationController.js
 │   │   └── userController.js
+│   ├── middleware/
+│   │   ├── jwtMiddleware.js
+│   │   └── roleMiddleware.js
 │   ├── models/
 │   │   ├── eventModel.js
 │   │   ├── registrationModel.js
@@ -57,6 +62,8 @@ DB_PORT=3306
 DB_USER=root
 DB_PASSWORD=your_mysql_password
 DB_NAME=smart_campus_event_system
+JWT_SECRET=change_this_secret
+JWT_EXPIRES_IN=1d
 ```
 
 3. Start MySQL server locally (required).
@@ -81,6 +88,11 @@ GET http://localhost:3000/api/health
 
 ### Users
 
+Auth endpoints:
+
+- `POST /api/users/register`
+- `POST /api/users/login`
+
 - `GET /api/users`
 - `GET /api/users/:id`
 - `POST /api/users`
@@ -93,7 +105,28 @@ User payload:
 {
   "name": "Alice",
   "email": "alice@campus.edu",
-  "role": "student"
+  "role": "student",
+  "password": "YourPassword123"
+}
+```
+
+Register payload:
+
+```json
+{
+  "name": "Admin User",
+  "email": "admin@campus.edu",
+  "password": "AdminPass123",
+  "role": "admin"
+}
+```
+
+Login payload:
+
+```json
+{
+  "email": "admin@campus.edu",
+  "password": "AdminPass123"
 }
 ```
 
@@ -102,7 +135,7 @@ User payload:
 - `GET /api/events`
 - `GET /api/events/stats`
 - `GET /api/events/:id`
-- `POST /api/events`
+- `POST /api/events` (Admin only, requires `Authorization: Bearer <token>`)
 - `PUT /api/events/:id`
 - `DELETE /api/events/:id`
 

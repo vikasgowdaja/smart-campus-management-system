@@ -1,0 +1,164 @@
+{
+  "client": "Thunder Client",
+  "collectionName": "Smart Campus Event System",
+  "dateExported": "2026-02-16T00:00:00.000Z",
+  "version": "1.1",
+  "folders": [],
+  "requests": [
+    {
+      "_id": "req_health",
+      "colId": "smart_campus_collection",
+      "containerId": "",
+      "name": "Health Check",
+      "url": "{{baseUrl}}/api/health",
+      "method": "GET",
+      "sortNum": 10000,
+      "headers": [],
+      "params": []
+    },
+    {
+      "_id": "req_register_admin",
+      "colId": "smart_campus_collection",
+      "containerId": "",
+      "name": "Register Admin",
+      "url": "{{baseUrl}}/api/users/register",
+      "method": "POST",
+      "sortNum": 20000,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Admin User\",\n  \"email\": \"admin@campus.edu\",\n  \"password\": \"AdminPass123\",\n  \"role\": \"admin\"\n}"
+      }
+    },
+    {
+      "_id": "req_login_admin",
+      "colId": "smart_campus_collection",
+      "containerId": "",
+      "name": "Login Admin",
+      "url": "{{baseUrl}}/api/users/login",
+      "method": "POST",
+      "sortNum": 30000,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"admin@campus.edu\",\n  \"password\": \"AdminPass123\"\n}"
+      }
+    },
+    {
+      "_id": "req_create_event_admin",
+      "colId": "smart_campus_collection",
+      "containerId": "",
+      "name": "Create Event (Admin Only)",
+      "url": "{{baseUrl}}/api/events",
+      "method": "POST",
+      "sortNum": 40000,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{token}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"title\": \"AI Workshop\",\n  \"description\": \"Hands-on intro to AI\",\n  \"event_date\": \"2026-03-10 10:00:00\",\n  \"location\": \"Lab 2\",\n  \"created_by\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_event_stats",
+      "colId": "smart_campus_collection",
+      "containerId": "",
+      "name": "Event Stats",
+      "url": "{{baseUrl}}/api/events/stats",
+      "method": "GET",
+      "sortNum": 50000,
+      "headers": [],
+      "params": []
+    },
+    {
+      "_id": "req_register_student",
+      "colId": "smart_campus_collection",
+      "containerId": "",
+      "name": "Register Student",
+      "url": "{{baseUrl}}/api/users/register",
+      "method": "POST",
+      "sortNum": 60000,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Student User\",\n  \"email\": \"student@campus.edu\",\n  \"password\": \"StudentPass123\",\n  \"role\": \"student\"\n}"
+      }
+    },
+    {
+      "_id": "req_login_student",
+      "colId": "smart_campus_collection",
+      "containerId": "",
+      "name": "Login Student",
+      "url": "{{baseUrl}}/api/users/login",
+      "method": "POST",
+      "sortNum": 70000,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"student@campus.edu\",\n  \"password\": \"StudentPass123\"\n}"
+      }
+    },
+    {
+      "_id": "req_create_event_student_forbidden",
+      "colId": "smart_campus_collection",
+      "containerId": "",
+      "name": "Create Event (Student -> 403)",
+      "url": "{{baseUrl}}/api/events",
+      "method": "POST",
+      "sortNum": 80000,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Bearer {{studentToken}}"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"title\": \"Unauthorized Event\",\n  \"description\": \"Should fail for student role\",\n  \"event_date\": \"2026-03-12 11:00:00\",\n  \"location\": \"Room 101\",\n  \"created_by\": 2\n}"
+      }
+    }
+  ],
+  "settings": {
+    "baseUrl": "http://localhost:8000",
+    "token": "",
+    "studentToken": ""
+  }
+}

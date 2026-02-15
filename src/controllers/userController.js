@@ -1,4 +1,14 @@
 const userModel = require('../models/userModel');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+const buildToken = (user) => {
+  return jwt.sign(
+    { id: user.id, email: user.email, role: user.role },
+    process.env.JWT_SECRET || 'dev_secret_change_me',
+    { expiresIn: process.env.JWT_EXPIRES_IN || '1d' }
+  );
+};
 
 const getUsers = async (req, res) => {
   try {
@@ -23,12 +33,14 @@ const getUser = async (req, res) => {
 
 const createUser = async (req, res) => {
   try {
-    const { name, email, role } = req.body;
-    if (!name || !email || !role) {
-      return res.status(400).json({ message: 'name, email, and role are required' });
+    const { name, email, role, password } = req.body;
+    if (!name || !email || !role || !password) {
+      return res.status(400).json({ message: 'name, email, role, and password are required' });
     }
 
-    const newUser = await userModel.createUser({ name, email, role });
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await userModel.createUser({ name, email, role, password: hashedPassword });
     res.status(201).json(newUser);
   } catch (error) {
     if (error.code === 'ER_DUP_ENTRY') {
@@ -40,12 +52,22 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
   try {
-    const { name, email, role } = req.body;
+    const { name, email, role, password } = req.body;
     if (!name || !email || !role) {
       return res.status(400).json({ message: 'name, email, and role are required' });
     }
 
-    const updatedUser = await userModel.updateUser(req.params.id, { name, email, role });
+    let hashedPassword;
+    if (password) {
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
+
+    const updatedUser = await userModel.updateUser(req.params.id, {
+      name,
+      email,
+      role,
+      password: hashedPassword
+    });
     if (!updatedUser) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -70,7 +92,68 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const register = async (req, res) => {
+  try {
+    const { name, email, password, role } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'name, email, and password are required' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await userModel.createUser({
+      name,
+      email,
+      password: hashedPassword,
+      role: role || 'student'
+    });
+
+    const token = buildToken(newUser);
+    res.status(201).json({ token, user: newUser });
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({ message: 'Email already exists' });
+    }
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ message: 'email and password are required' });
+    }
+
+    const user = await userModel.getUserForAuthByEmail(email);
+    if (!user || !user.password) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const token = buildToken(user);
+    res.json({
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        created_at: user.created_at,
+        updated_at: user.updated_at
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
+  register,
+  login,
   getUsers,
   getUser,
   createUser,
