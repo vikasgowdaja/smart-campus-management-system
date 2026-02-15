@@ -6,6 +6,9 @@ Minimal REST API using Node.js, Express, and MySQL.
 
 - Users table CRUD
 - Events table CRUD
+- Event registrations table CRUD
+- JOIN-based event and registration responses
+- Aggregation endpoint: `GET /api/events/stats`
 - Async/await across DB/model/controller layers
 - Clean modular folder structure
 - No authentication (as requested)
@@ -19,12 +22,15 @@ smart-campus-management-system/
 │   │   └── db.js
 │   ├── controllers/
 │   │   ├── eventController.js
+│   │   ├── registrationController.js
 │   │   └── userController.js
 │   ├── models/
 │   │   ├── eventModel.js
+│   │   ├── registrationModel.js
 │   │   └── userModel.js
 │   ├── routes/
 │   │   ├── eventRoutes.js
+│   │   ├── registrationRoutes.js
 │   │   └── userRoutes.js
 │   ├── app.js
 │   └── server.js
@@ -93,6 +99,7 @@ User payload:
 ### Events
 
 - `GET /api/events`
+- `GET /api/events/stats`
 - `GET /api/events/:id`
 - `POST /api/events`
 - `PUT /api/events/:id`
@@ -107,5 +114,23 @@ Event payload:
   "event_date": "2026-03-10 10:00:00",
   "location": "Lab 2",
   "created_by": 1
+}
+```
+
+### Event Registrations
+
+- `GET /api/registrations`
+- `GET /api/registrations/:id`
+- `POST /api/registrations`
+- `PUT /api/registrations/:id`
+- `DELETE /api/registrations/:id`
+
+Registration payload:
+
+```json
+{
+  "event_id": 1,
+  "user_id": 1,
+  "status": "registered"
 }
 ```

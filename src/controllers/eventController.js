@@ -9,6 +9,15 @@ const getEvents = async (req, res) => {
   }
 };
 
+const getEventStats = async (req, res) => {
+  try {
+    const stats = await eventModel.getEventStats();
+    res.json(stats);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const getEvent = async (req, res) => {
   try {
     const event = await eventModel.getEventById(req.params.id);
@@ -84,6 +93,7 @@ const deleteEvent = async (req, res) => {
 
 module.exports = {
   getEvents,
+  getEventStats,
   getEvent,
   createEvent,
   updateEvent,

@@ -25,3 +25,25 @@ CREATE TABLE IF NOT EXISTS events (
     ON DELETE RESTRICT
     ON UPDATE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS event_registrations (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  event_id INT NOT NULL,
+  user_id INT NOT NULL,
+  status ENUM('registered', 'cancelled') NOT NULL DEFAULT 'registered',
+  registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT uq_event_user UNIQUE (event_id, user_id),
+  CONSTRAINT fk_registrations_event
+    FOREIGN KEY (event_id)
+    REFERENCES events(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT fk_registrations_user
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE INDEX idx_event_registrations_event_id ON event_registrations(event_id);
+CREATE INDEX idx_event_registrations_user_id ON event_registrations(user_id);
