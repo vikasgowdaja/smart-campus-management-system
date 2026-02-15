@@ -39,6 +39,22 @@ const initializeDatabase = async () => {
     if (passwordColumn.length === 0) {
       await connection.query('ALTER TABLE users ADD COLUMN password VARCHAR(255) NULL AFTER email');
     }
+
+    const [eventIdIndex] = await connection.query(
+      "SELECT 1 FROM information_schema.statistics WHERE table_schema = ? AND table_name = 'event_registrations' AND index_name = 'idx_event_registrations_event_id' LIMIT 1",
+      [process.env.DB_NAME]
+    );
+    if (eventIdIndex.length === 0) {
+      await connection.query('CREATE INDEX idx_event_registrations_event_id ON event_registrations(event_id)');
+    }
+
+    const [userIdIndex] = await connection.query(
+      "SELECT 1 FROM information_schema.statistics WHERE table_schema = ? AND table_name = 'event_registrations' AND index_name = 'idx_event_registrations_user_id' LIMIT 1",
+      [process.env.DB_NAME]
+    );
+    if (userIdIndex.length === 0) {
+      await connection.query('CREATE INDEX idx_event_registrations_user_id ON event_registrations(user_id)');
+    }
   } finally {
     await connection.end();
   }

@@ -45,6 +45,3 @@ CREATE TABLE IF NOT EXISTS event_registrations (
     ON DELETE CASCADE
     ON UPDATE CASCADE
 );
-
-CREATE INDEX idx_event_registrations_event_id ON event_registrations(event_id);
-CREATE INDEX idx_event_registrations_user_id ON event_registrations(user_id);
