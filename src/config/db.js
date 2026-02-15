@@ -34,6 +34,11 @@ const initializeDatabase = async () => {
 
   try {
     await connection.query(schemaSql);
+
+    const [passwordColumn] = await connection.query("SHOW COLUMNS FROM users LIKE 'password'");
+    if (passwordColumn.length === 0) {
+      await connection.query('ALTER TABLE users ADD COLUMN password VARCHAR(255) NULL AFTER email');
+    }
   } finally {
     await connection.end();
   }
