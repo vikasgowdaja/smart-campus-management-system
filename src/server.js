@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const app = require('./app');
-const { testConnection } = require('./config/db');
+const { initializeDatabase, testConnection } = require('./config/db');
 
 const PORT = process.env.PORT || 3000;
 
@@ -9,8 +9,10 @@ const startServer = async () => {
   let dbConnected = false;
 
   try {
+    await initializeDatabase();
     await testConnection();
     dbConnected = true;
+    console.log('Schema check complete (database/tables ready)');
   } catch (error) {
     console.error('MySQL connection failed. Server will still start.');
     console.error('Reason:', error.message || error);
@@ -22,8 +24,18 @@ const startServer = async () => {
 
   app.locals.dbConnected = dbConnected;
 
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+  });
+
+  server.on('error', (error) => {
+    if (error.code === 'EADDRINUSE') {
+      console.error(`Port ${PORT} is already in use. Stop the existing process or change PORT in .env.`);
+      process.exit(1);
+    }
+
+    console.error('Server failed to start:', error.message);
+    process.exit(1);
   });
 };
 

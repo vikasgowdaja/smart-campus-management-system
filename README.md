@@ -59,16 +59,17 @@ DB_PASSWORD=your_mysql_password
 DB_NAME=smart_campus_event_system
 ```
 
-3. Create database schema in MySQL:
-
-- Open MySQL client
-- Run the SQL from `sql-schema.txt`
+3. Start MySQL server locally (required).
 
 4. Start API:
 
 ```bash
 npm run dev
 ```
+
+On startup, the API now automatically executes `sql-schema.txt` to create the database and tables if they do not exist.
+
+If auto-create fails due to permissions, run SQL manually from `sql-schema.txt` in your MySQL client.
 
 Health check:
 
