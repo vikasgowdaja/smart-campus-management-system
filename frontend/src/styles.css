@@ -270,6 +270,58 @@ textarea {
   overflow-x: auto;
 }
 
+.db-brand-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.db-brand-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.db-brand-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.db-logo {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  margin-bottom: 0.4rem;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.query-box {
+  width: 100%;
+  min-height: 160px;
+  margin-top: 0.6rem;
+  font-family: Consolas, Menlo, monospace;
+}
+
+.mini-card {
+  margin-top: 0.8rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: none;
+}
+
+.mysql-gradient::after {
+  background: linear-gradient(120deg, #00758f, #f29111);
+}
+
+.postgres-gradient::after {
+  background: linear-gradient(120deg, #336791, #8fd3ff);
+}
+
+.mongo-gradient::after {
+  background: linear-gradient(120deg, #13aa52, #9be15d);
+}
+
 @media (max-width: 720px) {
   .nav-inner {
     align-items: flex-start;

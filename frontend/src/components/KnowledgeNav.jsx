@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 const links = [
   { to: '/knowledge-hub', label: 'Overview' },
+  { to: '/knowledge/optimization', label: 'ACID + Indexing' },
   { to: '/knowledge/mysql', label: 'MySQL' },
   { to: '/knowledge/postgresql', label: 'PostgreSQL' },
   { to: '/knowledge/mongodb', label: 'MongoDB' },

@@ -13,6 +13,7 @@ import DatabaseMySQL from './pages/DatabaseMySQL';
 import DatabasePostgreSQL from './pages/DatabasePostgreSQL';
 import DatabaseMongoDB from './pages/DatabaseMongoDB';
 import DatabaseScenarios from './pages/DatabaseScenarios';
+import DatabaseOptimization from './pages/DatabaseOptimization';
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/events" element={<Events />} />
           <Route path="/knowledge-hub" element={<KnowledgeHub />} />
+          <Route path="/knowledge/optimization" element={<DatabaseOptimization />} />
           <Route path="/knowledge/mysql" element={<DatabaseMySQL />} />
           <Route path="/knowledge/postgresql" element={<DatabasePostgreSQL />} />
           <Route path="/knowledge/mongodb" element={<DatabaseMongoDB />} />
