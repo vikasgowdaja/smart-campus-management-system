@@ -15,6 +15,9 @@ Minimal REST API using Node.js, Express, MySQL (primary), and MongoDB (activity 
 - MongoDB activity logs collection (`activity_logs`)
 - Login attempt logging and API error logging
 - Logging middleware for request/error tracking
+- OpenWeather forecast integration on admin event creation
+- Weather snapshot stored in MySQL (`events.weather_snapshot`)
+- API retry with exponential backoff for weather fetch
 - Async/await across DB/model/controller layers
 - Clean modular folder structure
 
@@ -26,6 +29,7 @@ smart-campus-management-system/
 │   ├── config/
 │   │   └── db.js
 │   │   └── mongo.js
+│   │   └── weather.js
 │   ├── controllers/
 │   │   ├── eventController.js
 │   │   ├── registrationController.js
@@ -72,13 +76,18 @@ DB_NAME=smart_campus_event_system
 JWT_SECRET=change_this_secret
 JWT_EXPIRES_IN=1d
 MONGO_URI=mongodb://127.0.0.1:27017/smart_campus_logs
+OPENWEATHER_API_KEY=your_openweather_api_key
+OPENWEATHER_MAX_RETRIES=3
+OPENWEATHER_RETRY_BASE_MS=500
 ```
 
 3. Start MySQL server locally (required).
 
 4. Start MongoDB server locally (optional for logs, recommended).
 
-5. Start API:
+5. Set OpenWeather API key in `.env` (required for weather snapshot).
+
+6. Start API:
 
 ```bash
 npm run dev
@@ -162,6 +171,9 @@ Event payload:
   "created_by": 1
 }
 ```
+
+On `POST /api/events`, weather forecast is fetched from OpenWeather and stored in MySQL.
+If the weather API fails, event creation still succeeds and weather data is saved as `null`.
 
 ### Event Registrations
 

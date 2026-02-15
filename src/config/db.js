@@ -40,6 +40,16 @@ const initializeDatabase = async () => {
       await connection.query('ALTER TABLE users ADD COLUMN password VARCHAR(255) NULL AFTER email');
     }
 
+    const [weatherSnapshotColumn] = await connection.query("SHOW COLUMNS FROM events LIKE 'weather_snapshot'");
+    if (weatherSnapshotColumn.length === 0) {
+      await connection.query('ALTER TABLE events ADD COLUMN weather_snapshot LONGTEXT NULL AFTER created_by');
+    }
+
+    const [weatherFetchedAtColumn] = await connection.query("SHOW COLUMNS FROM events LIKE 'weather_fetched_at'");
+    if (weatherFetchedAtColumn.length === 0) {
+      await connection.query('ALTER TABLE events ADD COLUMN weather_fetched_at DATETIME NULL AFTER weather_snapshot');
+    }
+
     const [eventIdIndex] = await connection.query(
       "SELECT 1 FROM information_schema.statistics WHERE table_schema = ? AND table_name = 'event_registrations' AND index_name = 'idx_event_registrations_event_id' LIMIT 1",
       [process.env.DB_NAME]

@@ -1,4 +1,5 @@
 const eventModel = require('../models/eventModel');
+const { fetchWeatherForecastWithRetry } = require('../config/weather');
 
 const getEvents = async (req, res) => {
   try {
@@ -37,14 +38,32 @@ const createEvent = async (req, res) => {
       return res.status(400).json({ message: 'title, event_date, location, and created_by are required' });
     }
 
+    let weatherSnapshot = null;
+    let weatherFetchedAt = null;
+    let weatherStatus = 'unavailable';
+
+    try {
+      weatherSnapshot = await fetchWeatherForecastWithRetry(location, event_date);
+      weatherFetchedAt = new Date();
+      weatherStatus = 'fetched';
+    } catch (weatherError) {
+      weatherStatus = 'failed';
+      console.warn('Weather fetch failed during event creation:', weatherError.message || weatherError);
+    }
+
     const newEvent = await eventModel.createEvent({
       title,
       description: description || null,
       event_date,
       location,
-      created_by
+      created_by,
+      weather_snapshot: weatherSnapshot ? JSON.stringify(weatherSnapshot) : null,
+      weather_fetched_at: weatherFetchedAt
     });
-    res.status(201).json(newEvent);
+    res.status(201).json({
+      ...newEvent,
+      weather_status: weatherStatus
+    });
   } catch (error) {
     if (error.code === 'ER_NO_REFERENCED_ROW_2') {
       return res.status(400).json({ message: 'created_by user does not exist' });

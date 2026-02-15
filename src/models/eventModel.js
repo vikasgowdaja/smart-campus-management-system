@@ -9,6 +9,8 @@ const getAllEvents = async () => {
       e.event_date,
       e.location,
       e.created_by,
+      e.weather_snapshot,
+      e.weather_fetched_at,
       e.created_at,
       e.updated_at,
       u.name AS created_by_name,
@@ -32,6 +34,8 @@ const getEventById = async (id) => {
       e.event_date,
       e.location,
       e.created_by,
+      e.weather_snapshot,
+      e.weather_fetched_at,
       e.created_at,
       e.updated_at,
       u.name AS created_by_name,
@@ -48,10 +52,10 @@ const getEventById = async (id) => {
 };
 
 const createEvent = async (event) => {
-  const { title, description, event_date, location, created_by } = event;
+  const { title, description, event_date, location, created_by, weather_snapshot, weather_fetched_at } = event;
   const [result] = await pool.query(
-    'INSERT INTO events (title, description, event_date, location, created_by) VALUES (?, ?, ?, ?, ?)',
-    [title, description, event_date, location, created_by]
+    'INSERT INTO events (title, description, event_date, location, created_by, weather_snapshot, weather_fetched_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [title, description, event_date, location, created_by, weather_snapshot, weather_fetched_at]
   );
   return getEventById(result.insertId);
 };
