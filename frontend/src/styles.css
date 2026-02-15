@@ -175,6 +175,65 @@ textarea {
   padding-left: 1.1rem;
 }
 
+.info-banner {
+  border-left: 4px solid #2563eb;
+}
+
+.hub-grid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-top: 1rem;
+}
+
+.stage-card {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.stage-tag {
+  display: inline-block;
+  width: fit-content;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.command-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.command-chip {
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  padding: 0.3rem 0.65rem;
+  background: #f8fafc;
+  font-size: 0.85rem;
+}
+
+.timeline {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 0.8rem;
+  align-items: start;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed #e2e8f0;
+}
+
+.timeline-day {
+  font-weight: 700;
+  color: #0f172a;
+}
+
 @media (max-width: 720px) {
   .nav-inner {
     align-items: flex-start;

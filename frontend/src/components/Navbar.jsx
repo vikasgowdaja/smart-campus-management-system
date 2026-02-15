@@ -18,6 +18,7 @@ export default function Navbar() {
         <nav className="nav-links">
           <NavLink to="/dashboard">Dashboard</NavLink>
           <NavLink to="/events">Events</NavLink>
+          <NavLink to="/knowledge-hub">Knowledge Hub</NavLink>
           {!isAdmin && <NavLink to="/resources">Resources</NavLink>}
           {!isAdmin && <NavLink to="/bookings">Bookings</NavLink>}
           {isAdmin && <NavLink to="/events/create">Create Event</NavLink>}

@@ -8,6 +8,7 @@ import Events from './pages/Events';
 import CreateEvent from './pages/CreateEvent';
 import Resources from './pages/Resources';
 import Bookings from './pages/Bookings';
+import KnowledgeHub from './pages/KnowledgeHub';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/knowledge-hub" element={<KnowledgeHub />} />
         </Route>
 
         <Route element={<ProtectedRoute roles={['admin', 'Admin']} />}>
