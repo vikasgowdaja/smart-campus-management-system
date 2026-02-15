@@ -1,10 +1,9 @@
-require('dotenv').config();
-
 const app = require('./app');
 const { initializeDatabase, testConnection } = require('./config/db');
 const { connectMongo } = require('./config/mongo');
+const env = require('./config/env');
 
-const PORT = process.env.PORT || 3000;
+const PORT = env.PORT;
 
 const startServer = async () => {
   let dbConnected = false;
