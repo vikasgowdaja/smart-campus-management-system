@@ -1,6 +1,7 @@
 const userModel = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { logActivity } = require('../models/activityLogModel');
 
 const buildToken = (user) => {
   return jwt.sign(
@@ -121,20 +122,71 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
+      await logActivity({
+        category: 'auth',
+        action: 'login_attempt',
+        status: 'failed',
+        email: email || null,
+        method: req.method,
+        path: req.originalUrl,
+        statusCode: 400,
+        message: 'Missing email or password',
+        ip: req.ip,
+        userAgent: req.get('user-agent') || null
+      });
       return res.status(400).json({ message: 'email and password are required' });
     }
 
     const user = await userModel.getUserForAuthByEmail(email);
     if (!user || !user.password) {
+      await logActivity({
+        category: 'auth',
+        action: 'login_attempt',
+        status: 'failed',
+        email,
+        method: req.method,
+        path: req.originalUrl,
+        statusCode: 401,
+        message: 'Invalid credentials',
+        ip: req.ip,
+        userAgent: req.get('user-agent') || null
+      });
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
+      await logActivity({
+        category: 'auth',
+        action: 'login_attempt',
+        status: 'failed',
+        userId: user.id,
+        email,
+        method: req.method,
+        path: req.originalUrl,
+        statusCode: 401,
+        message: 'Invalid credentials',
+        ip: req.ip,
+        userAgent: req.get('user-agent') || null
+      });
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
     const token = buildToken(user);
+    await logActivity({
+      category: 'auth',
+      action: 'login_attempt',
+      status: 'success',
+      userId: user.id,
+      email,
+      method: req.method,
+      path: req.originalUrl,
+      statusCode: 200,
+      message: 'Login successful',
+      ip: req.ip,
+      userAgent: req.get('user-agent') || null
+    });
+
     res.json({
       token,
       user: {
@@ -147,6 +199,18 @@ const login = async (req, res) => {
       }
     });
   } catch (error) {
+    await logActivity({
+      category: 'auth',
+      action: 'login_attempt',
+      status: 'failed',
+      email: req.body?.email || null,
+      method: req.method,
+      path: req.originalUrl,
+      statusCode: 500,
+      message: error.message,
+      ip: req.ip,
+      userAgent: req.get('user-agent') || null
+    });
     res.status(500).json({ message: error.message });
   }
 };

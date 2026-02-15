@@ -2,11 +2,13 @@ require('dotenv').config();
 
 const app = require('./app');
 const { initializeDatabase, testConnection } = require('./config/db');
+const { connectMongo } = require('./config/mongo');
 
 const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
   let dbConnected = false;
+  let mongoConnected = false;
 
   try {
     await initializeDatabase();
@@ -22,7 +24,10 @@ const startServer = async () => {
     console.error('Check .env values and confirm MySQL is running on port 3306.');
   }
 
+  mongoConnected = await connectMongo();
+
   app.locals.dbConnected = dbConnected;
+  app.locals.mongoConnected = mongoConnected;
 
   const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

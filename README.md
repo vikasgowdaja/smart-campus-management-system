@@ -1,6 +1,6 @@
 # Smart Campus Event System (Stage 1 MVP)
 
-Minimal REST API using Node.js, Express, and MySQL.
+Minimal REST API using Node.js, Express, MySQL (primary), and MongoDB (activity logs).
 
 ## Features
 
@@ -12,6 +12,9 @@ Minimal REST API using Node.js, Express, and MySQL.
 - JWT authentication (`register`, `login`)
 - Password hashing using bcrypt
 - Role-based authorization (Admin-only event creation)
+- MongoDB activity logs collection (`activity_logs`)
+- Login attempt logging and API error logging
+- Logging middleware for request/error tracking
 - Async/await across DB/model/controller layers
 - Clean modular folder structure
 
@@ -22,14 +25,18 @@ smart-campus-management-system/
 ├── src/
 │   ├── config/
 │   │   └── db.js
+│   │   └── mongo.js
 │   ├── controllers/
 │   │   ├── eventController.js
 │   │   ├── registrationController.js
 │   │   └── userController.js
 │   ├── middleware/
+│   │   ├── errorLogMiddleware.js
 │   │   ├── jwtMiddleware.js
+│   │   ├── requestLogMiddleware.js
 │   │   └── roleMiddleware.js
 │   ├── models/
+│   │   ├── activityLogModel.js
 │   │   ├── eventModel.js
 │   │   ├── registrationModel.js
 │   │   └── userModel.js
@@ -64,11 +71,14 @@ DB_PASSWORD=your_mysql_password
 DB_NAME=smart_campus_event_system
 JWT_SECRET=change_this_secret
 JWT_EXPIRES_IN=1d
+MONGO_URI=mongodb://127.0.0.1:27017/smart_campus_logs
 ```
 
 3. Start MySQL server locally (required).
 
-4. Start API:
+4. Start MongoDB server locally (optional for logs, recommended).
+
+5. Start API:
 
 ```bash
 npm run dev
@@ -83,6 +93,8 @@ Health check:
 ```http
 GET http://localhost:3000/api/health
 ```
+
+`/api/health` now includes `dbConnected` (MySQL) and `mongoConnected` (MongoDB).
 
 ## API Endpoints
 
