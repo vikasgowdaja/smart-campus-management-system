@@ -105,7 +105,8 @@ export default function Bookings() {
           <ul className="list">
             {bookings.map((booking) => (
               <li key={booking.id || `${booking.resourceId}-${booking.startTime}`}>
-                Resource #{booking.resourceId} | {booking.startTime} → {booking.endTime}
+                {booking.resourceName || `Resource #${booking.resourceId}`} | {booking.startTime}
+                {booking.endTime ? ` → ${booking.endTime}` : ''}
               </li>
             ))}
           </ul>

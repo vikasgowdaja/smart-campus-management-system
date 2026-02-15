@@ -46,12 +46,16 @@ export const registerForEvent = async (eventId, userId) => {
     return data;
   } catch (error) {
     if (error?.response?.status === 404) {
-      const { data } = await api.post('/registrations', {
-        event_id: Number(eventId),
-        user_id: Number(userId),
-        status: 'registered'
-      });
-      return data;
+      try {
+        const { data } = await api.post('/registrations', {
+          event_id: Number(eventId),
+          user_id: Number(userId),
+          status: 'registered'
+        });
+        return data;
+      } catch (fallbackError) {
+        throw new Error(extractError(fallbackError, 'Failed to register for event'));
+      }
     }
     throw new Error(extractError(error, 'Failed to register for event'));
   }
