@@ -1,223 +1,370 @@
-# Smart Campus Event System (Stage 1 MVP)
+# 🎓 Smart Campus Management Platform
 
-Minimal REST API using Node.js, Express, MySQL (primary), and MongoDB (activity logs).
+*(DB + API + Development Journey)*
 
-## Features
+A **Full-Stack Smart Campus Management System** built using modern backend and frontend architecture, demonstrating real-world database design, REST API engineering, authentication, NoSQL logging, and external API integration.
 
-- Users table CRUD
-- Events table CRUD
-- Event registrations table CRUD
-- JOIN-based event and registration responses
-- Aggregation endpoint: `GET /api/events/stats`
-- JWT authentication (`register`, `login`)
-- Password hashing using bcrypt
-- Role-based authorization (Admin-only event creation)
-- MongoDB activity logs collection (`activity_logs`)
-- Login attempt logging and API error logging
-- Logging middleware for request/error tracking
-- OpenWeather forecast integration on admin event creation
-- Weather snapshot stored in MySQL (`events.weather_snapshot`)
-- API retry with exponential backoff for weather fetch
-- Input validation with Joi
-- Rate limiting
-- CORS configuration
-- Deployment-ready environment configuration
-- Swagger API docs (`/api/docs`)
-- Async/await across DB/model/controller layers
-- Clean modular folder structure
+This project is built progressively in structured stages, mirroring real-world software development practices with architectural refinement at each phase.
 
-## Project Structure
+---
 
-```text
+## 📌 Overview
+
+The Smart Campus Management Platform simulates a real enterprise-grade system that manages:
+
+* 🎓 Students & Admin Users
+* 📅 Campus Events
+* 🧪 Resource Booking
+* 📊 Analytics Dashboard
+* 🌦 External Weather API Integration
+* 📘 Knowledge Hub (Project Architecture & Development Documentation)
+
+This system demonstrates:
+
+* Relational Database Design (MySQL/PostgreSQL)
+* NoSQL Integration (MongoDB)
+* REST API Architecture
+* Secure Authentication (JWT)
+* Environment-based configuration
+* Clean Backend Architecture
+* Production-Ready Engineering Practices
+
+---
+
+# 🏗 Tech Stack
+
+## Frontend
+
+* React + Vite
+* Axios
+* React Router
+* Context API
+* Modular Component Architecture
+
+## Backend
+
+* Node.js
+* Express.js
+* JWT Authentication
+* bcrypt Password Hashing
+* Joi Validation
+* Clean Layered Architecture
+
+## Databases
+
+* MySQL / PostgreSQL (Relational)
+* MongoDB (Logging & Activity Tracking)
+
+## External Integration
+
+* OpenWeather API (Event-based weather insights)
+
+---
+
+# 🧠 Architecture Philosophy
+
+This project is built progressively, reflecting real-world engineering evolution.
+
+Development Stages:
+
+1. MVP Backend (Core CRUD)
+2. Database Normalization & Relationship Modeling
+3. Authentication & Role-based Authorization
+4. NoSQL Logging Integration
+5. External API Integration
+6. Production Hardening
+7. Frontend Integration
+8. Knowledge Hub Documentation
+
+The focus is not only on functionality, but on architectural maturity and maintainability.
+
+---
+
+# 📂 Project Structure
+
+```
 smart-campus-management-system/
-├── src/
-│   ├── config/
-│   │   └── db.js
-│   │   └── env.js
-│   │   └── mongo.js
-│   │   └── weather.js
-│   ├── controllers/
-│   │   ├── eventController.js
-│   │   ├── registrationController.js
-│   │   └── userController.js
-│   ├── docs/
-│   │   └── swagger.js
-│   ├── middleware/
-│   │   ├── errorLogMiddleware.js
-│   │   ├── jwtMiddleware.js
-│   │   ├── requestLogMiddleware.js
-│   │   ├── validateMiddleware.js
-│   │   └── roleMiddleware.js
-│   ├── models/
-│   │   ├── activityLogModel.js
-│   │   ├── eventModel.js
-│   │   ├── registrationModel.js
-│   │   └── userModel.js
-│   ├── routes/
-│   │   ├── eventRoutes.js
-│   │   ├── registrationRoutes.js
-│   │   └── userRoutes.js
-│   ├── validation/
-│   │   └── schemas.js
-│   ├── app.js
+│
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── middleware/
+│   │   ├── config/
+│   │   └── utils/
 │   └── server.js
-├── env.example.txt
-├── sql-schema.txt
-├── package.json
+│
+├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── layouts/
+│   │   ├── context/
+│   │   └── hooks/
+│
 └── README.md
 ```
 
-## Local Setup
+---
 
-1. Install dependencies:
+# ✨ Features
+
+## 🔐 Authentication
+
+* JWT-based login & registration
+* Role-based access control (Admin / Student)
+* Protected routes
+* Secure password hashing
+
+## 📅 Event Management
+
+* Create, update, delete events (Admin)
+* Register for events (Student)
+* Event capacity tracking
+* Weather snapshot integration
+
+## 🧪 Resource Booking
+
+* Resource availability tracking
+* Booking conflict prevention
+* Aggregation-based reporting
+
+## 📊 Dashboard & Analytics
+
+* Event participation statistics
+* Resource usage insights
+* Aggregated SQL queries
+
+## 🗂 NoSQL Logging
+
+* Login attempts
+* API errors
+* Activity tracking
+* Flexible document schema for operational logs
+
+## 📘 Knowledge Hub
+
+* Documents project evolution
+* Highlights architectural decisions
+* Explains design improvements across stages
+* Serves as a structured technical case study
+
+---
+
+# 🛠 Getting Started
+
+## Clone Repository
 
 ```bash
+git clone <your-repo-url>
+cd smart-campus-management-system
+```
+
+---
+
+## Backend Setup
+
+```bash
+cd backend
 npm install
 ```
 
-2. Create `.env` in the project root using values from `env.example.txt`:
+### Environment Configuration
 
-```env
-PORT=3000
-NODE_ENV=development
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=your_mysql_password
-DB_NAME=smart_campus_event_system
-JWT_SECRET=change_this_secret
-JWT_EXPIRES_IN=1d
-MONGO_URI=mongodb://127.0.0.1:27017/smart_campus_logs
-CORS_ORIGIN=*
-RATE_LIMIT_WINDOW_MINUTES=15
-RATE_LIMIT_MAX=100
-OPENWEATHER_API_KEY=your_openweather_api_key
-OPENWEATHER_MAX_RETRIES=3
-OPENWEATHER_RETRY_BASE_MS=500
+Copy example file:
+
+```bash
+cp .env.example .env
 ```
 
-3. Start MySQL server locally (required).
+Update your `.env` file:
 
-4. Start MongoDB server locally (optional for logs, recommended).
+```
+PORT=
+DB_HOST=
+DB_USER=
+DB_PASSWORD=
+DB_NAME=
+JWT_SECRET=
+MONGO_URI=
+WEATHER_API_KEY=
+```
 
-5. Set OpenWeather API key in `.env` (required for weather snapshot).
+---
 
-6. Start API:
+### Run Backend
 
 ```bash
 npm run dev
 ```
 
-On startup, the API now automatically executes `sql-schema.txt` to create the database and tables if they do not exist.
+---
 
-If auto-create fails due to permissions, run SQL manually from `sql-schema.txt` in your MySQL client.
+## Frontend Setup
 
-Health check:
-
-```http
-GET http://localhost:3000/api/health
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-Swagger docs:
+---
 
-```http
-GET http://localhost:3000/api/docs
+# 🧮 Database Design
+
+## Relational Tables
+
+* Users
+* Events
+* Event_Registrations
+* Resources
+* Bookings
+
+Concepts Covered:
+
+* Primary Keys
+* Foreign Keys
+* Normalization
+* Constraints
+* Indexing
+* Aggregations
+* Joins
+* Subqueries
+
+---
+
+# 📊 Example Aggregation Endpoint
+
+```
+GET /api/events/stats
 ```
 
-`/api/health` now includes `dbConnected` (MySQL) and `mongoConnected` (MongoDB).
+Returns:
 
-## Production Hardening Notes
+* Total events
+* Registrations per event
+* Most booked resource
+* Active users
 
-- **Security headers** via Helmet
-- **Rate limiting** via `RATE_LIMIT_WINDOW_MINUTES` and `RATE_LIMIT_MAX`
-- **CORS policy** via `CORS_ORIGIN`
-- **Input validation** via Joi schemas
-- **Environment validation** at startup (`src/config/env.js`)
+---
 
-## API Endpoints
+# 🌦 External API Integration
 
-### Users
+When an admin creates an event:
 
-Auth endpoints:
+* Weather forecast is fetched from OpenWeather API
+* Snapshot is stored in the database
+* Retry logic handles transient failures
+* Graceful fallback ensures system stability
 
-- `POST /api/users/register`
-- `POST /api/users/login`
+---
 
-- `GET /api/users`
-- `GET /api/users/:id`
-- `POST /api/users`
-- `PUT /api/users/:id`
-- `DELETE /api/users/:id`
+# 🔒 Security Practices
 
-User payload:
+* Environment-based configuration
+* JWT authentication
+* Input validation
+* Centralized error handling
+* Role-based authorization
+* Separation of transactional and logging databases
+* No secrets committed to repository
 
-```json
-{
-  "name": "Alice",
-  "email": "alice@campus.edu",
-  "role": "student",
-  "password": "YourPassword123"
-}
+---
+
+# 🔁 Development Workflow
+
+## Branch Strategy
+
+All features branch from `develop`.
+
+```
+feature/stage-1-mvp
+feature/stage-2-db-normalization
+feature/stage-3-auth
+feature/stage-4-nosql
+feature/stage-5-external-api
+feature/frontend-integration
 ```
 
-Register payload:
+---
 
-```json
-{
-  "name": "Admin User",
-  "email": "admin@campus.edu",
-  "password": "AdminPass123",
-  "role": "admin"
-}
+## Commit Format
+
+```
+SC-01: feat: implement user authentication
+SC-02: refactor: normalize database schema
+SC-03: feat: integrate MongoDB logging
+SC-04: chore: configure production environment
 ```
 
-Login payload:
+---
 
-```json
-{
-  "email": "admin@campus.edu",
-  "password": "AdminPass123"
-}
-```
+# 📦 Deployment
 
-### Events
+Backend:
 
-- `GET /api/events`
-- `GET /api/events/stats`
-- `GET /api/events/:id`
-- `POST /api/events` (Admin only, requires `Authorization: Bearer <token>`)
-- `PUT /api/events/:id`
-- `DELETE /api/events/:id`
+* Render
+* Railway
+* AWS EC2
 
-Event payload:
+Database:
 
-```json
-{
-  "title": "AI Workshop",
-  "description": "Hands-on intro to AI",
-  "event_date": "2026-03-10 10:00:00",
-  "location": "Lab 2",
-  "created_by": 1
-}
-```
+* Managed MySQL instance
+* MongoDB Atlas
 
-On `POST /api/events`, weather forecast is fetched from OpenWeather and stored in MySQL.
-If the weather API fails, event creation still succeeds and weather data is saved as `null`.
+Frontend:
 
-### Event Registrations
+* Vercel
+* Netlify
 
-- `GET /api/registrations`
-- `GET /api/registrations/:id`
-- `POST /api/registrations`
-- `PUT /api/registrations/:id`
-- `DELETE /api/registrations/:id`
+---
 
-Registration payload:
+# 🧪 Testing
 
-```json
-{
-  "event_id": 1,
-  "user_id": 1,
-  "status": "registered"
-}
-```
+* Postman collection included
+* API validation scenarios documented
+* Error response examples provided
+
+---
+
+# 📈 Learning Outcomes
+
+After completing this project, developers demonstrate:
+
+* Full-stack architectural understanding
+* Relational and NoSQL integration
+* REST API engineering
+* Secure authentication implementation
+* External API integration
+* Production-level backend structuring
+* Real-world development workflow experience
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+# 🤝 Support
+
+For questions or improvements:
+
+* Create an issue
+* Submit a pull request
+* Follow branch and commit guidelines
+
+---
+
+# 💎 Final Note
+
+This is not just a database project.
+This is not just a REST API project.
+This is not just a frontend project.
+
+This is a structured engineering journey —
+built progressively, refined architecturally, and implemented with production discipline.
