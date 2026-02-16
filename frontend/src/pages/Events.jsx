@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner, faCalendar, faCheckCircle, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../context/AuthContext';
 import EventCard from '../components/EventCard';
 import { deleteEvent, getEvents, registerForEvent } from '../services/eventService';
@@ -68,12 +70,15 @@ export default function Events() {
 
   return (
     <section className="container page">
-      <h1>Events</h1>
-      {message && <p className="success-text">{message}</p>}
-      {error && <p className="error-text">{error}</p>}
+      <h1><FontAwesomeIcon icon={faCalendar} className="icon-inline" /> Events</h1>
+      {message && <p className="success-text"><FontAwesomeIcon icon={faCheckCircle} className="icon-inline" /> {message}</p>}
+      {error && <p className="error-text"><FontAwesomeIcon icon={faExclamationCircle} className="icon-inline" /> {error}</p>}
 
       {loading ? (
-        <p>Loading events...</p>
+        <div className="spinner">
+          <FontAwesomeIcon icon={faSpinner} spin className="spinner-icon" />
+          <p>Loading events...</p>
+        </div>
       ) : events.length === 0 ? (
         <p>No events available.</p>
       ) : (

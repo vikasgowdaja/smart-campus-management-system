@@ -1,0 +1,31 @@
+<svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+  <!-- PostgreSQL Elephant -->
+  <g id="elephant">
+    <!-- Head -->
+    <circle cx="140" cy="100" r="45" fill="#336791"/>
+    <!-- Trunk -->
+    <path d="M 140 145 Q 135 180 130 220 Q 130 240 140 250 Q 150 240 150 220 Q 145 180 140 145" fill="#336791" stroke="#1a3a52" stroke-width="1"/>
+    <!-- Trunk curve -->
+    <path d="M 138 160 Q 120 180 115 220" stroke="#8fd3ff" stroke-width="2" opacity="0.4" fill="none"/>
+    <!-- Ears -->
+    <ellipse cx="110" cy="80" rx="20" ry="35" fill="#336791"/>
+    <ellipse cx="170" cy="80" rx="20" ry="35" fill="#336791"/>
+    <!-- Inner ear -->
+    <ellipse cx="110" cy="85" rx="10" ry="25" fill="#8fd3ff" opacity="0.5"/>
+    <ellipse cx="170" cy="85" rx="10" ry="25" fill="#8fd3ff" opacity="0.5"/>
+    <!-- Eyes -->
+    <circle cx="130" cy="95" r="5" fill="#ffffff"/>
+    <circle cx="130" cy="95" r="3" fill="#000"/>
+    <circle cx="150" cy="95" r="5" fill="#ffffff"/>
+    <circle cx="150" cy="95" r="3" fill="#000"/>
+    <!-- Tusks -->
+    <path d="M 125 125 Q 120 145 125 160" stroke="#8fd3ff" stroke-width="3" fill="none" opacity="0.7"/>
+    <path d="M 155 125 Q 160 145 155 160" stroke="#8fd3ff" stroke-width="3" fill="none" opacity="0.7"/>
+    <!-- Front legs -->
+    <rect x="120" y="160" width="10" height="70" fill="#336791" rx="5"/>
+    <rect x="150" y="160" width="10" height="70" fill="#336791" rx="5"/>
+    <!-- Feet -->
+    <ellipse cx="125" cy="235" rx="12" ry="8" fill="#1a3a52"/>
+    <ellipse cx="155" cy="235" rx="12" ry="8" fill="#1a3a52"/>
+  </g>
+</svg>

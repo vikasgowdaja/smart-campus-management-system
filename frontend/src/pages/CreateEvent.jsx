@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar, faMapMarkerAlt, faFileAlt, faHeading, faCheckCircle, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { createEvent } from '../services/eventService';
 import { useAuth } from '../context/AuthContext';
 
@@ -40,23 +42,23 @@ export default function CreateEvent() {
     <section className="container page">
       <h1>Create Event</h1>
       <form className="card form-card" onSubmit={handleSubmit}>
-        {success && <p className="success-text">{success}</p>}
-        {error && <p className="error-text">{error}</p>}
+        {success && <p className="success-text"><FontAwesomeIcon icon={faCheckCircle} className="icon-inline" /> {success}</p>}
+        {error && <p className="error-text"><FontAwesomeIcon icon={faExclamationCircle} className="icon-inline" /> {error}</p>}
 
-        <label>Title</label>
+        <label><FontAwesomeIcon icon={faHeading} className="icon-inline" /> Title</label>
         <input
           value={form.title}
           onChange={(e) => setForm((prev) => ({ ...prev, title: e.target.value }))}
           required
         />
 
-        <label>Description</label>
+        <label><FontAwesomeIcon icon={faFileAlt} className="icon-inline" /> Description</label>
         <textarea
           value={form.description}
           onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))}
         />
 
-        <label>Event Date & Time</label>
+        <label><FontAwesomeIcon icon={faCalendar} className="icon-inline" /> Event Date & Time</label>
         <input
           type="datetime-local"
           value={form.event_date}
@@ -64,7 +66,7 @@ export default function CreateEvent() {
           required
         />
 
-        <label>Location</label>
+        <label><FontAwesomeIcon icon={faMapMarkerAlt} className="icon-inline" /> Location</label>
         <input
           value={form.location}
           onChange={(e) => setForm((prev) => ({ ...prev, location: e.target.value }))}

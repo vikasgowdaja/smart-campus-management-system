@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar, faMapMarkerAlt, faUsers, faCloud, faTrash, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+
 export default function EventCard({ event, isAdmin, onDelete, onRegister, loadingAction }) {
   const weather = event?.weather_snapshot ? parseWeather(event.weather_snapshot) : null;
 
@@ -6,17 +9,20 @@ export default function EventCard({ event, isAdmin, onDelete, onRegister, loadin
       <h3>{event.title}</h3>
       <p>{event.description || 'No description provided.'}</p>
       <p>
+        <FontAwesomeIcon icon={faCalendar} className="icon-inline" />
         <strong>Date:</strong> {new Date(event.event_date).toLocaleString()}
       </p>
       <p>
+        <FontAwesomeIcon icon={faMapMarkerAlt} className="icon-inline" />
         <strong>Location:</strong> {event.location}
       </p>
       <p>
+        <FontAwesomeIcon icon={faUsers} className="icon-inline" />
         <strong>Registrations:</strong> {event.total_registrations ?? 0}
       </p>
 
       <div className="weather-box">
-        <strong>Weather Snapshot:</strong>
+        <strong><FontAwesomeIcon icon={faCloud} className="icon-inline" />Weather Snapshot:</strong>
         {weather ? (
           <div>
             <div>{weather.forecast?.weather || 'N/A'}</div>
@@ -36,6 +42,7 @@ export default function EventCard({ event, isAdmin, onDelete, onRegister, loadin
             disabled={loadingAction}
             onClick={() => onDelete(event.id)}
           >
+            <FontAwesomeIcon icon={faTrash} className="icon-inline" />
             {loadingAction ? 'Deleting...' : 'Delete'}
           </button>
         ) : (
@@ -45,6 +52,7 @@ export default function EventCard({ event, isAdmin, onDelete, onRegister, loadin
             disabled={loadingAction}
             onClick={() => onRegister(event.id)}
           >
+            <FontAwesomeIcon icon={faUserPlus} className="icon-inline" />
             {loadingAction ? 'Registering...' : 'Register'}
           </button>
         )}

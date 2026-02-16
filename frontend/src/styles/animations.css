@@ -1,0 +1,194 @@
+/* ===== DATABASE ANIMATIONS ===== */
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hoverLift {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes rotateOnHover {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(5deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(0, 117, 143, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 117, 143, 0.6);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(360deg);
+  }
+}
+
+/* ===== DATABASE CARD ANIMATIONS ===== */
+.db-card {
+  animation: fadeInScale 0.6s ease-out;
+}
+
+.db-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.db-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.db-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.db-card:hover {
+  animation: hoverLift 0.3s ease-out forwards !important;
+}
+
+/* ===== LOGO ANIMATIONS ===== */
+.db-logo {
+  animation: fadeInScale 0.5s ease-out;
+  transition: transform 0.3s ease;
+}
+
+.db-card:hover .db-logo {
+  animation: rotateOnHover 0.4s ease-in-out;
+}
+
+/* ===== HERO SECTION ANIMATIONS ===== */
+.hero-title {
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.hero-subtitle {
+  animation: slideInLeft 0.8s ease-out 0.2s backwards;
+}
+
+.hero-cta {
+  animation: slideInUp 0.8s ease-out 0.4s backwards;
+}
+
+/* ===== TEXT ANIMATIONS ===== */
+.rating-badge {
+  animation: fadeInScale 0.7s ease-out;
+}
+
+.feature-text {
+  animation: slideInUp 0.6s ease-out;
+}
+
+/* ===== 3D SCENE LOADER ===== */
+.canvas-loader {
+  animation: fadeInScale 1s ease-out;
+}
+
+/* ===== RESPONSIVE ANIMATIONS ===== */
+@media (max-width: 768px) {
+  .db-card {
+    animation: fadeInScale 0.5s ease-out;
+  }
+
+  .hero-title {
+    animation: slideInLeft 0.6s ease-out;
+  }
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+.animate-on-scroll {
+  opacity: 0;
+  animation: fadeInScale 0.8s ease-out forwards;
+}
+
+/* ===== LOADING STATE ===== */
+.loading-spinner {
+  animation: spin 1.5s linear infinite;
+}
+
+/* ===== GPU OPTIMIZATION ===== */
+.animatable {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+}
